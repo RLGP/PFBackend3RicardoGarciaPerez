@@ -3,12 +3,12 @@ import { faker } from '@faker-js/faker';
 export const generatePet = () => {
     return {
         _id: faker.database.mongodbObjectId(),
-        name: faker.animal.name(),
-        specie: faker.helpers.arrayElement(['dog', 'cat', 'bird', 'hamster']),
-        birthDate: faker.date.past(),
+        name: faker.person.firstName(),
+        specie: faker.helpers.arrayElement(['Perro', 'Gato', 'Pajaro', 'Hamster']),
+        birthDate: faker.date.past({ years: 7 }),
         adopted: false,
         owner: null,
-        image: faker.image.animals()
+        image:  faker.image.urlLoremFlickr({ category: "animals" })
     }
 }
 

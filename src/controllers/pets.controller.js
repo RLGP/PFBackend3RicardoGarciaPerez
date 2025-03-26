@@ -12,7 +12,7 @@ const getAllPets = async(req,res) => {
             status: "error",
             error: CustomError.createError({
                 type: ErrorTypes.DATABASE_ERROR,
-                message: "Error fetching pets from database"
+                message: "Error trayendo mascotas de la base de datos"
             })
         });
     }
@@ -46,7 +46,7 @@ const updatePet = async(req,res) => {
         if(!petId) {
             throw CustomError.createError({
                 type: ErrorTypes.INVALID_INPUT,
-                message: "Pet ID is required"
+                message: "Se requiere ID de mascota"
             });
         }
 
@@ -59,7 +59,7 @@ const updatePet = async(req,res) => {
         }
 
         const result = await petsService.update(petId, petUpdateBody);
-        res.send({status:"success", message:"pet updated"})
+        res.send({status:"success", message:"Mascota actualizada"})
     } catch (error) {
         res.status(error.type === ErrorTypes.NOT_FOUND ? 404 : 400).send({
             status: "error",
@@ -75,7 +75,7 @@ const deletePet = async(req,res) => {
         if(!petId) {
             throw CustomError.createError({
                 type: ErrorTypes.INVALID_INPUT,
-                message: "Pet ID is required"
+                message: "Se requiere ID de mascota"
             });
         }
 
@@ -88,7 +88,7 @@ const deletePet = async(req,res) => {
         }
 
         const result = await petsService.delete(petId);
-        res.send({status:"success", message:"pet deleted"});
+        res.send({status:"success", message:"Mascota borrada"});
     } catch (error) {
         res.status(error.type === ErrorTypes.NOT_FOUND ? 404 : 400).send({
             status: "error",
@@ -105,7 +105,7 @@ const createPetWithImage = async(req,res) => {
         if(!file) {
             throw CustomError.createError({
                 type: ErrorTypes.INVALID_INPUT,
-                message: "Image file is required"
+                message: "Es requerido un archivo de imagen"
             });
         }
 

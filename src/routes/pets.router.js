@@ -18,7 +18,7 @@ router.get('/mockingpets', (req, res) => {
         const mockedPets = generateManyPets(count);
         res.send({ status: "success", payload: mockedPets });
     } catch (error) {
-        res.status(500).send({ status: "error", error: "Error generating mocked pets" });
+        res.status(500).send({ status: "error", error: "Error generando mascotas con mocking" });
     }
 });
 

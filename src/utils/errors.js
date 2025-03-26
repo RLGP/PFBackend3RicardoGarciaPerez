@@ -1,22 +1,22 @@
 export const ErrorTypes = {
-    INVALID_INPUT: 'INVALID_INPUT',
-    NOT_FOUND: 'NOT_FOUND',
-    DATABASE_ERROR: 'DATABASE_ERROR',
-    AUTHENTICATION_ERROR: 'AUTHENTICATION_ERROR'
+    INVALID_INPUT: 'Input invalido',
+    NOT_FOUND: 'No encontrado',
+    DATABASE_ERROR: 'Error de la base de datos',
+    AUTHENTICATION_ERROR: 'Error de autenticación'
 }
 
 export const ErrorMessages = {
     PET: {
-        INCOMPLETE_VALUES: 'All pet fields are required (name, specie, birthDate)',
-        NOT_FOUND: 'Pet not found',
-        ALREADY_ADOPTED: 'Pet is already adopted'
+        INCOMPLETE_VALUES: 'Todos los campos son requeridos (nombre, especie, fecha de nacimiento)',
+        NOT_FOUND: 'Mascota no encontrada',
+        ALREADY_ADOPTED: 'La mascota ya ha sido adoptada'
     },
     USER: {
-        INCOMPLETE_VALUES: 'All user fields are required',
-        INVALID_EMAIL: 'Invalid email format',
-        EMAIL_EXISTS: 'Email already registered',
-        NOT_FOUND: 'User not found',
-        INVALID_PASSWORD: 'Invalid password'
+        INCOMPLETE_VALUES: 'Todos los campos del usuario son requeridos',
+        INVALID_EMAIL: 'Formato de Emain invalido',
+        EMAIL_EXISTS: 'Este Email ya se ha registrado',
+        NOT_FOUND: 'Usuario no encontrado',
+        INVALID_PASSWORD: 'Contraseña invalida'
     }
 }
 

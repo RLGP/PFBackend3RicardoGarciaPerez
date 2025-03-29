@@ -21,19 +21,22 @@ const customLevelsOptions = {
 
 const level = () => {
   const env = process.env.NODE_ENV || 'development';
-  return (env === 'development') ? 'debug' : 'info';
+  return env === 'development' ? 'debug' : 'info';
 };
 
 const logger = winston.createLogger({
   levels: customLevelsOptions.levels,
   level: level(),
-  format: winston.format.combine(
-    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-    winston.format.colorize({ all: true }),
-    winston.format.printf(info => `${info.timestamp} - ${info.level}: ${info.message}`)
-  ),
   transports: [
-    new winston.transports.Console(),
+    // Transporte para la consola con colorización
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        winston.format.colorize({ all: true }),
+        winston.format.printf(info => `${info.timestamp} - ${info.level}: ${info.message}`)
+      )
+    }),
+    // Transporte para archivo sin colorización (formato JSON sin códigos ANSI)
     new winston.transports.File({
       filename: 'errors.log',
       level: 'error',
@@ -45,6 +48,7 @@ const logger = winston.createLogger({
   ]
 });
 
+// Se añaden los colores definidos a los niveles
 winston.addColors(customLevelsOptions.colors);
 
 export default logger;

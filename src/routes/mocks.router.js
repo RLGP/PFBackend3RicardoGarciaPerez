@@ -47,6 +47,7 @@ router.post('/generateData', async (req, res) => {
             petsInserted: allPets
         });
     } catch (error) {
+        console.error('Error en /generateData:', error); 
         res.status(500).send({ status: 'error', error: 'Error generando datos.' });
     }
 });

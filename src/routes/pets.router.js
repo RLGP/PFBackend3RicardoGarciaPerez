@@ -5,13 +5,30 @@ import { generateManyPets } from '../mocks/pets.mock.js';
 
 const router = Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Pets
+ *   description: Gestión de mascotas
+ */
+
+/**
+ * @swagger
+ * /api/pets:
+ *   get:
+ *     summary: Obtener todas las mascotas
+ *     tags: [Pets]
+ *     responses:
+ *       200:
+ *         description: Lista de mascotas
+ */
+
 router.get('/',petsController.getAllPets);
 router.post('/',petsController.createPet);
 router.post('/withimage',uploader.single('image'), petsController.createPetWithImage);
 router.put('/:pid',petsController.updatePet);
 router.delete('/:pid',petsController.deletePet);
 
-// Add new mocking endpoint
 router.get('/mockingpets', (req, res) => {
     try {
         const count = parseInt(req.query.count) || 100;

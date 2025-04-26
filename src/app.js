@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import logger from './utils/logger.js';
+import { configureSwagger } from './config/swagger.config.js'; 
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ import mocksRouter from './routes/mocks.router.js';
 
 const app = express();
 const PORT = process.env.PORT || 8080;
-
+configureSwagger(app);
 mongoose.connect(process.env.MONGO_URL);
 
 app.use(express.json());
@@ -32,3 +33,5 @@ app.use('/', loggerTestRouter);
 logger.info(`Escuchando en el puerto ${PORT}`);
 
 app.listen(PORT, () => logger.info(`Servidor activo en el puerto ${PORT}`));
+
+export default app;

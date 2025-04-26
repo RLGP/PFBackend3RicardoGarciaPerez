@@ -1,5 +1,5 @@
 import request from 'supertest';
-import app from '../src/app.js';  
+import app from '../src/app.js';
 import { expect } from 'chai';
 
 describe('Pets Router', () => {
@@ -14,9 +14,10 @@ describe('Pets Router', () => {
     const res = await request(app)
       .post('/api/pets')
       .send(newPet);
-
-    expect(res.status).to.equal(200); // Corregido aquí
-    expect(res.body).to.have.property('name', 'Firulais');
+    expect(res.status).to.equal(200); 
+    expect(res.body).to.have.property('status', 'success');
+    expect(res.body).to.have.property('data');
+    expect(res.body.data).to.have.property('name', 'Firulais');
   });
 
   it('no debería crear una mascota sin nombre', async () => {
@@ -29,14 +30,15 @@ describe('Pets Router', () => {
       .post('/api/pets')
       .send(newPet);
 
-    expect(res.status).to.equal(400); // Corregido aquí
+    expect(res.status).to.equal(400);
     expect(res.body).to.have.property('error');
   });
 
   it('debería obtener todas las mascotas', async () => {
     const res = await request(app).get('/api/pets');
     expect(res.status).to.equal(200);
-    expect(res.body.payload).to.be.an('array'); // Cambia res.body por res.body.payload
+    expect(res.body).to.have.property('status', 'success');
+    expect(res.body.payload).to.be.an('array');
   });
 
 });

@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import logger from './utils/logger.js';
 import { configureSwagger } from './config/swagger.config.js'; 
+import { swaggerSpecs } from './config/swagger.config.js';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ import adoptionsRouter from './routes/adoption.router.js';
 import sessionsRouter from './routes/sessions.router.js';
 import loggerTestRouter from './routes/loggerTest.router.js'; 
 import mocksRouter from './routes/mocks.router.js';
+
+import swaggerUi from 'swagger-ui-express';
 
 
 const app = express();
@@ -29,6 +32,8 @@ app.use('/api/pets', petsRouter);
 app.use('/api/adoptions', adoptionsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/', loggerTestRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 logger.info(`Escuchando en el puerto ${PORT}`);
 

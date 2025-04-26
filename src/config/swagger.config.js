@@ -1,19 +1,19 @@
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUiExpress from 'swagger-ui-express';
+import swaggerUiExpress from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 
 const swaggerOptions = {
   definition: {
-    openapi: '3.0.1',
+    openapi: "3.0.1",
     info: {
-      title: 'API de Adopciones de Mascotas',
-      description: 'Documentación de API para Sessions, Pets y Adoptions',
+      title: "Documentación API Backend3 - Ricardo García",
+      description: "API para gestión de sesiones, mascotas y adopciones",
     },
   },
-  apis: ['./src/routes/*.js'],
+  apis: ["./src/routes/*.js"], 
 };
 
-const swaggerSpec = swaggerJSDoc(swaggerOptions);
+export const swaggerSpecs = swaggerJSDoc(swaggerOptions); // 👈 Esto ya lo tienes bien
 
 export const configureSwagger = (app) => {
-  app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpec));
+  app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerSpecs)); // 👈 Aquí pon swaggerSpecs (con s)
 };

@@ -36,3 +36,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 logger.info(`Escuchando en el puerto ${PORT}`);
 
 app.listen(PORT, () => logger.info(`Servidor activo en el puerto ${PORT}`));
+
+export default app;

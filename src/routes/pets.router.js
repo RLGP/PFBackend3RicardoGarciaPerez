@@ -22,6 +22,19 @@ const router = Router();
  *       200:
  *         description: Lista de mascotas
  */
+router.post('/', async (req, res) => {
+    try {
+      const { name, specie } = req.body;
+      if (!name || !specie) {
+        return res.status(400).json({ error: 'Faltan datos' });
+      }
+      const pet = { id: pets.length + 1, name, specie };
+      pets.push(pet);
+      res.status(200).json({ status: 'success', data: pet });
+    } catch (error) {
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  });
 
 router.get('/',petsController.getAllPets);
 router.post('/',petsController.createPet);

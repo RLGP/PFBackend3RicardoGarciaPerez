@@ -14,10 +14,10 @@ const router = Router();
  *           type: string
  *           description: ID autogenerado por MongoDB
  *         owner:
- *           type: string # O podría ser un objeto User si haces populate
+ *           type: string
  *           description: ID del usuario que adopta
  *         pet:
- *           type: string # O podría ser un objeto Pet si haces populate
+ *           type: string
  *           description: ID de la mascota adoptada
  *         date:
  *           type: string
@@ -25,8 +25,8 @@ const router = Router();
  *           description: Fecha y hora de la adopción
  *       example:
  *         _id: 61e0b4d5d1f7a7f7e8a1b2c3
- *         owner: 60d0fe4f5311236168a109cb # ID del usuario
- *         pet: 60d0fe4f5311236168a109ca # ID de la mascota
+ *         owner: 60d0fe4f5311236168a109cb
+ *         pet: 60d0fe4f5311236168a109ca
  *         date: 2023-10-27T10:30:00.000Z
  *
  * tags:

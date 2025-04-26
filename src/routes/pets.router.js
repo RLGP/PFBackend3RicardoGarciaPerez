@@ -292,7 +292,7 @@ router.delete('/:pid', petsController.deletePet);
  *                 payload:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Pet' # Asumiendo que el mock genera objetos similares
+ *                     $ref: '#/components/schemas/Pet'
  *       500:
  *         description: Error generando mascotas con mocking
  */

@@ -67,7 +67,6 @@ const router = Router();
  *         role:
  *           type: string
  *           description: Rol del usuario (e.g., 'user', 'admin')
- *         # No incluir password hasheada en la respuesta
  *       example:
  *         _id: 60d0fe4f5311236168a109cb
  *         first_name: Juan
@@ -76,12 +75,10 @@ const router = Router();
  *         role: user
  *
  *   securitySchemes:
- *     bearerAuth: # O cookieAuth si usas cookies
+ *     bearerAuth:
  *       type: http
- *       scheme: bearer # O 'cookie' si usas cookies
- *       bearerFormat: JWT # O el nombre de tu cookie
- *       # in: header # O 'cookie' si usas cookies
- *       # name: Authorization # O el nombre de tu cookie
+ *       scheme: bearer
+ *       bearerFormat: JWT
  *
  * tags:
  *   name: Sessions
@@ -148,10 +145,6 @@ router.post('/register', sessionsController.register);
  *                 message:
  *                   type: string
  *                   example: Logged in
- *                 # Opcional: incluir token si se devuelve en el cuerpo
- *                 # token:
- *                 #   type: string
- *                 #   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *       400:
  *         description: Datos incompletos
  *       401:
@@ -168,7 +161,7 @@ router.post('/login', sessionsController.login);
  *     summary: Obtener información del usuario actualmente logueado
  *     tags: [Sessions]
  *     security:
- *       - bearerAuth: [] # O cookieAuth: [] si usas cookies
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Datos del usuario actual

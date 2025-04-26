@@ -1,4 +1,22 @@
 import { usersService } from "../services/index.js"
+const users = [];
+
+export const createUser = (req, res) => {
+    try {
+      const { first_name, email } = req.body;
+      if (!first_name || !email) {
+        return res.status(400).json({ error: 'Faltan datos' });
+      }
+      if (!email.includes('@')) {
+        return res.status(400).json({ error: 'Email inválido' });
+      }
+      const user = { id: users.length + 1, first_name, email };
+      users.push(user);
+      res.status(201).json({ status: 'success', data: user });
+    } catch (error) {
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  };
 
 const getAllUsers = async(req,res)=>{
     const users = await usersService.getAll();

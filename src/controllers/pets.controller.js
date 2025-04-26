@@ -3,6 +3,22 @@ import { petsService } from "../services/index.js"
 import __dirname from "../utils/index.js";
 import { CustomError, ErrorTypes, ErrorMessages } from "../utils/errors.js";
 
+const pets = [];
+
+export const createPetTest = (req, res) => {
+    try {
+      const { name } = req.body;
+      if (!name) {
+        return res.status(400).json({ error: 'Faltan datos' });
+      }
+      const pet = { id: pets.length + 1, name };
+      pets.push(pet);
+      res.status(200).json({ status: 'success', data: pet });
+    } catch (error) {
+      res.status(500).json({ error: 'Error interno del servidor' });
+    }
+  };
+
 const getAllPets = async(req,res) => {
     try {
         const pets = await petsService.getAll();

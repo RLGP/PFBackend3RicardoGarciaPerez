@@ -2,6 +2,7 @@ import { Router } from 'express';
 import petsController from '../controllers/pets.controller.js';
 import uploader from '../utils/uploader.js';
 import { generateManyPets } from '../mocks/pets.mock.js';
+import { createPetTest} from '../controllers/pets.controller.js';
 
 const router = Router();
 
@@ -22,19 +23,7 @@ const router = Router();
  *       200:
  *         description: Lista de mascotas
  */
-router.post('/', async (req, res) => {
-    try {
-      const { name, specie } = req.body;
-      if (!name || !specie) {
-        return res.status(400).json({ error: 'Faltan datos' });
-      }
-      const pet = { id: pets.length + 1, name, specie };
-      pets.push(pet);
-      res.status(200).json({ status: 'success', data: pet });
-    } catch (error) {
-      res.status(500).json({ error: 'Error interno del servidor' });
-    }
-  });
+router.post('/', createPetTest);
 
 router.get('/',petsController.getAllPets);
 router.post('/',petsController.createPet);

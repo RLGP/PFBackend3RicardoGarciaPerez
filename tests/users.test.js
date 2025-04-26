@@ -39,7 +39,7 @@ describe('Users Router', () => {
       .get('/api/users');
 
     expect(res.status).to.equal(200); // Corregido aquí
-    expect(res.body).to.be.an('array');
+    expect(res.body.payload).to.be.an('array');
   });
 
 });

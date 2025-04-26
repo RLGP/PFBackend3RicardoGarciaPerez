@@ -175,7 +175,7 @@ describe('Router de Usuarios y Sesiones', () => {
 
             const updateData = {
                 last_name: 'UpdatedLastName',
-            };
+};
 
             const res = await request(app)
                 .put(`/api/users/${testUserId}`)

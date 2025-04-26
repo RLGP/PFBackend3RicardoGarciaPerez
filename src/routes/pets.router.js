@@ -23,7 +23,6 @@ const router = Router();
  *       200:
  *         description: Lista de mascotas
  */
-router.post('/', createPetTest);
 
 router.get('/',petsController.getAllPets);
 router.post('/',petsController.createPet);

@@ -34,11 +34,9 @@ describe('Pets Router', () => {
   });
 
   it('debería obtener todas las mascotas', async () => {
-    const res = await request(app)
-      .get('/api/pets');
-
-    expect(res.status).to.equal(200); // Corregido aquí
-    expect(res.body).to.be.an('array');
+    const res = await request(app).get('/api/pets');
+    expect(res.status).to.equal(200);
+    expect(res.body.payload).to.be.an('array'); // Cambia res.body por res.body.payload
   });
 
 });

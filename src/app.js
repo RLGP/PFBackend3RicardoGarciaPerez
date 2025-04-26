@@ -16,7 +16,6 @@ import loggerTestRouter from './routes/loggerTest.router.js';
 import mocksRouter from './routes/mocks.router.js';
 import swaggerUi from 'swagger-ui-express';
 
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 configureSwagger(app);

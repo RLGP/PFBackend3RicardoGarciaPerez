@@ -35,7 +35,6 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/pets', petsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/adoptions', adoptionsRouter);
-app.use('/api/sessions', sessionsRouter);
 app.use('/', loggerTestRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 

@@ -1,4 +1,5 @@
 import express from 'express';
+import session from 'express-session'; 
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
@@ -20,11 +21,17 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 configureSwagger(app);
 mongoose.connect(process.env.MONGO_URL);
+app.use(session({
+    secret: (process.env.JWT_SECRET),  
+    resave: false,                 
+    saveUninitialized: false,      
+}));
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use('/api/mocks', mocksRouter);
+app.use('/api/sessions', sessionsRouter);
 app.use('/api/pets', petsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/adoptions', adoptionsRouter);

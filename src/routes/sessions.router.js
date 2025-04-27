@@ -206,4 +206,31 @@ router.get('/unprotectedLogin', sessionsController.unprotectedLogin);
  */
 router.get('/unprotectedCurrent', sessionsController.unprotectedCurrent);
 
+/**
+ * @swagger
+ * /api/sessions/logout:
+ *   post:
+ *     summary: Cerrar la sesión del usuario actual
+ *     tags: [Sessions]
+ *     responses:
+ *       200:
+ *         description: Sesión cerrada exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 message:
+ *                   type: string
+ *                   example: Logged out
+ *       400:
+ *         description: No hay sesión activa
+ *       500:
+ *         description: Error al cerrar sesión
+ */
+router.post('/logout', sessionsController.logout);
+
 export default router;

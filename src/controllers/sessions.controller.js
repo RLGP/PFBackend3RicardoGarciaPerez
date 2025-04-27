@@ -33,21 +33,61 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    if (!email || !password)
-        return res.status(400).send({ status: "error", error: "Incomplete values" });
-    
-    const user = await usersService.getUserByEmail(email);
-    if (!user) 
-        return res.status(404).send({ status: "error", error: "User doesn't exist" });
-    
-    const isValidPassword = await passwordValidation(user, password);
-    if (!isValidPassword)
-        return res.status(400).send({ status: "error", error: "Incorrect password" });
-    
-    const userDto = UserDTO.getUserTokenFrom(user);
-    const token = jwt.sign(userDto, 'tokenSecretJWT', { expiresIn: "1h" });
-    res.cookie('coderCookie', token, { maxAge: 3600000 }).send({ status: "success", message: "Logged in" });
-}
+    if (!email || !password) return res.status(400).send({ status: "error", error: "Incomplete values" });
+
+    try {
+        const user = await usersService.getUserByEmail(email);
+        if (!user) return res.status(401).send({ status: "error", error: "Incorrect credentials" });
+
+        const isValidPassword = await passwordValidation(user, password);
+        if (!isValidPassword) return res.status(401).send({ status: "error", error: "Incorrect credentials" });
+
+        user.last_connection = new Date();
+        await user.save(); 
+        logger.info(`Login exitoso para ${email}. Última conexión actualizada.`);
+
+        req.session.user = {
+            id: user._id,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            email: user.email,
+            role: user.role
+        };
+
+        res.send({ status: "success", message: "Logged in" });
+
+    } catch (error) {
+        logger.error(`Error en login para ${email}: ${error}`);
+        res.status(500).send({ status: "error", error: "Internal server error" });
+    }
+};
+
+
+const logout = async (req, res) => {
+    if (req.session.user) { 
+        try {
+            const userId = req.session.user.id;
+            const user = await usersService.getUserById(userId);
+            if (user) {
+                user.last_connection = new Date();
+                await user.save(); 
+                logger.info(`Logout para usuario ${userId}. Última conexión actualizada.`);
+            }
+        } catch (error) {
+            logger.error(`Error actualizando last_connection en logout para ${req.session.user.id}: ${error}`);
+        }
+
+        req.session.destroy(err => {
+            if (err) {
+                logger.error(`Error destruyendo sesión: ${err}`);
+                return res.status(500).send({ status: 'error', error: 'Logout failed' });
+            }
+            res.send({ status: 'success', message: 'Logged out' });
+        });
+    } else {
+        res.status(400).send({ status: 'error', error: 'No active session' });
+    }
+};
 
 const current = async (req, res) => {
     const cookie = req.cookies['coderCookie'];
@@ -91,6 +131,7 @@ const unprotectedCurrent = async (req, res) => {
 export default {
     register,
     login,
+    logout,
     current,
     unprotectedLogin,
     unprotectedCurrent

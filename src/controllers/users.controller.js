@@ -1,4 +1,5 @@
 import { usersService } from "../services/index.js"
+import logger from '../utils/logger.js';
 
 export const createUser = (req, res) => {
     try {
@@ -22,7 +23,6 @@ export const createUser = (req, res) => {
         const users = await usersService.getAll();
         res.send({ status: "success", payload: users });
     } catch (error) {
-        // Consider adding proper error logging/handling
         res.status(500).send({ status: "error", error: "Failed to retrieve users" });
     }
 };
@@ -34,7 +34,6 @@ const getUser = async (req, res) => {
         if (!user) return res.status(404).send({ status: "error", error: "User not found" });
         res.send({ status: "success", payload: user });
     } catch (error) {
-        // Consider adding proper error logging/handling
         res.status(500).send({ status: "error", error: "Failed to retrieve user" });
     }
 };
@@ -43,14 +42,11 @@ const updateUser = async (req, res) => {
     try {
         const updateBody = req.body;
         const userId = req.params.uid;
-        // Check if user exists before attempting update
         const user = await usersService.getUserById(userId);
         if (!user) return res.status(404).send({ status: "error", error: "User not found" });
-        // Perform the update
-        const result = await usersService.update(userId, updateBody); // Assuming service handles the update logic
+        const result = await usersService.update(userId, updateBody); 
         res.send({ status: "success", message: "User updated" });
     } catch (error) {
-        // Consider adding proper error logging/handling
         res.status(500).send({ status: "error", error: "Failed to update user" });
     }
 };
@@ -58,24 +54,55 @@ const updateUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.uid;
-        // Check if user exists before attempting deletion
         const user = await usersService.getUserById(userId);
         if (!user) {
             return res.status(404).send({ status: "error", error: "User not found" });
         }
-        // Call the service to delete the user
-        await usersService.delete(userId); // Assuming your service has a delete method
+        await usersService.delete(userId); 
         res.send({ status: "success", message: "User deleted" });
     } catch (error) {
-        // Consider adding proper error logging/handling
-        console.error("Error deleting user:", error); // Log the error
+        console.error("Error deleting user:", error); 
         res.status(500).send({ status: "error", error: "Failed to delete user" });
     }
 };
+
+const uploadDocuments = async (req, res) => {
+    const { uid } = req.params;
+    const files = req.files; 
+
+    if (!files || files.length === 0) {
+        return res.status(400).send({ status: 'error', error: 'No se subieron archivos.' });
+    }
+
+    try {
+        const user = await usersService.getUserById(uid);
+        if (!user) {
+            return res.status(404).send({ status: 'error', error: 'Usuario no encontrado.' });
+        }
+
+        const newDocuments = files.map(file => ({
+            name: file.originalname, 
+            reference: `/uploads/documents/${file.filename}`
+        }));
+
+
+        user.documents.push(...newDocuments);
+
+        await user.save(); 
+        logger.info(`Documentos subidos para usuario ${uid}: ${files.map(f => f.filename).join(', ')}`);
+        res.send({ status: 'success', message: 'Documentos subidos correctamente.', documents: newDocuments });
+
+    } catch (error) {
+        logger.error(`Error subiendo documentos para ${uid}: ${error}`);
+        res.status(500).send({ status: 'error', error: 'Error interno al procesar archivos.' });
+    }
+};
+
 
 export default {
     deleteUser,
     getAllUsers,
     getUser,
-    updateUser
+    updateUser,
+    uploadDocuments
 }

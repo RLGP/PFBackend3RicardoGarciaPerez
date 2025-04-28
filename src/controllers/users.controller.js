@@ -100,6 +100,7 @@ const uploadDocuments = async (req, res) => {
 
 
 export default {
+    createUser,
     deleteUser,
     getAllUsers,
     getUser,

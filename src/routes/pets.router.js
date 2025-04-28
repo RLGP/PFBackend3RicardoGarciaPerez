@@ -7,6 +7,48 @@ const router = Router();
 
 /**
  * @swagger
+ * /api/pets/mockingpets:
+ *   get:
+ *     summary: Generar mascotas de prueba (mocking)
+ *     tags: [Pets]
+ *     parameters:
+ *       - in: query
+ *         name: count
+ *         schema:
+ *           type: integer
+ *           default: 100
+ *         description: Número de mascotas a generar
+ *     responses:
+ *       200:
+ *         description: Lista de mascotas generadas
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 payload:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Pet'
+ *       500:
+ *         description: Error generando mascotas con mocking
+ */
+router.get('/mockingpets', (req, res) => {
+    try {
+        const count = parseInt(req.query.count) || 100;
+        const mockedPets = generateManyPets(count);
+        res.send({ status: "success", payload: mockedPets });
+    } catch (error) {
+        console.error("Error generando mascotas con mocking:", error);
+        res.status(500).send({ status: "error", error: "Error generando mascotas con mocking" });
+    }
+});
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Pet:
@@ -265,46 +307,5 @@ router.put('/:pid', petsController.updatePet);
  */
 router.delete('/:pid', petsController.deletePet);
 
-/**
- * @swagger
- * /api/pets/mockingpets:
- *   get:
- *     summary: Generar mascotas de prueba (mocking)
- *     tags: [Pets]
- *     parameters:
- *       - in: query
- *         name: count
- *         schema:
- *           type: integer
- *           default: 100
- *         description: Número de mascotas a generar
- *     responses:
- *       200:
- *         description: Lista de mascotas generadas
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 status:
- *                   type: string
- *                   example: success
- *                 payload:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Pet'
- *       500:
- *         description: Error generando mascotas con mocking
- */
-router.get('/mockingpets', (req, res) => {
-    try {
-        const count = parseInt(req.query.count) || 100;
-        const mockedPets = generateManyPets(count);
-        res.send({ status: "success", payload: mockedPets });
-    } catch (error) {
-        console.error("Error generando mascotas con mocking:", error);
-        res.status(500).send({ status: "error", error: "Error generando mascotas con mocking" });
-    }
-});
 
 export default router;
